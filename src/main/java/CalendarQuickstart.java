@@ -174,11 +174,13 @@ public class CalendarQuickstart {
     	Event event = new Event().setSummary("Töö");
 		DateTime startDateTime = first;
 		EventDateTime start = new EventDateTime()
-        	    .setDateTime(startDateTime);
+        	    .setDateTime(startDateTime)
+        	    .setTimeZone("Europe/Tallinn");
         	event.setStart(start);
 		DateTime endDateTime = second;
 		EventDateTime end = new EventDateTime()
-        	    .setDateTime(endDateTime);
+        	    .setDateTime(endDateTime)
+        	    .setTimeZone("Europe/Tallinn");
         	event.setEnd(end);
         	
         String calendarId = "primary";
