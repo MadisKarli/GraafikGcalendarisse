@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//Creates event in Google Calendar
 public class CalendarQuickstart {
     /** Application name. */
     private static final String APPLICATION_NAME =
@@ -177,15 +178,29 @@ public class CalendarQuickstart {
         	    .setDateTime(startDateTime)
         	    .setTimeZone("Europe/Tallinn");
         	event.setStart(start);
-		DateTime endDateTime = second;
+//		DateTime endDateTime = second;
+		DateTime incrementedendDateTime = incrementEndDate(second);
 		EventDateTime end = new EventDateTime()
-        	    .setDateTime(endDateTime)
+        	    .setDateTime(incrementedendDateTime)
         	    .setTimeZone("Europe/Tallinn");
         	event.setEnd(end);
         	
         String calendarId = "primary";
         event = service.events().insert(calendarId, event).execute();
-        System.out.printf("Event created: %s\n", event.getHtmlLink());
+        System.out.printf("URL for created event: %s\n", event.getHtmlLink());
     }
+
+    //Time table only shows start hour. This will increment end date to display it correctly in the calendar.
+	private static DateTime incrementEndDate(DateTime second) {
+		String[] newSecond = second.toString().split("T");
+		String[] newSecondHour = newSecond[1].split(":");
+		String day = newSecond[0];
+		String hour = String.valueOf(Integer.parseInt(newSecondHour[0])+1);
+		if(hour.length() == 1){
+			hour = "0" + hour;
+		}
+		DateTime newEndDate = new DateTime(day + "T" + hour + ":00:00.000+03:00");
+		return newEndDate;
+	}
 
 }

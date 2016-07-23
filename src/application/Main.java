@@ -15,19 +15,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
+//Sets up GUI
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			VBox vbox = new VBox();
 			
-		    Label name = new Label("Sisesta enda nimi: ");
+		    Label name = new Label("Sisesta enda nimi nii nagu see esineb graafikus: ");
 		    vbox.getChildren().add(name);
-		    final TextField tekst = new TextField("");
+		    final TextField tekst = new TextField("Madis");
 		    vbox.getChildren().add(tekst);
 		 
-		    Label name2 = new Label("Sisesta graafik: ");
+		    Label name2 = new Label("Sisesta graafik alates \"Date\" kuni pühapäeva viimane vahetus");
 		    vbox.getChildren().add(name2);
 		    final TextArea tekst2 = new TextArea("");
 		    vbox.getChildren().add(tekst2);
@@ -62,7 +62,7 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+	//A function that passes time table for parsing
 	private static void passEvent(String input, String name){
 //		System.out.println(input + " " + name);
 		try {
