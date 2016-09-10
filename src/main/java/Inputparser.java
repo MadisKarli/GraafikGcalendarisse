@@ -10,8 +10,8 @@ import com.google.api.client.util.DateTime;
 
 //Class that takes time table from input string and passes it to Google Calendar API
 public class Inputparser {
-	public static void parseInput(String input, String name) throws IOException{
-		
+	public static void parseInput(String input, String name) throws IOException, WrongDateFormatException{
+		application.Main.dostuff();
 		String[] lines = removeTabsAndEmptyLines(input);
 		
 		ArrayList<String> dates =  new ArrayList<String>();
@@ -62,7 +62,7 @@ public class Inputparser {
 	}
 
 	//Takes dates from the first line of time table
-	private static ArrayList<String> parseDates(ArrayList<String> input){
+	private static ArrayList<String> parseDates(ArrayList<String> input) throws WrongDateFormatException{
 		
 		ArrayList<String> out = new ArrayList<String>();
 		
@@ -73,9 +73,13 @@ public class Inputparser {
 			int ddlen = dd.length();
 			if(ddlen == 1) dd = "0" + dd;
 //			for(String e: parts) System.out.println(e);
+			try{
 			String mm = getmonthnumber(parts[1]);
 			String yy = parts[2];
 			out.add(yy+"-"+mm+"-"+dd);
+			}catch (ArrayIndexOutOfBoundsException e){
+				throw new WrongDateFormatException(line);
+			}
 		}
 		return out;
 	}
@@ -109,7 +113,7 @@ public class Inputparser {
 	}
 	
 	//Gets month number from monthstring as months in time table are in ther respective name and not number
-	private static String getmonthnumber(String in){
+	private static String getmonthnumber(String in) throws WrongDateFormatException{
 		if(in.contains("jaan")){
 			return "01";
 		}
@@ -147,7 +151,7 @@ public class Inputparser {
 			return "12";
 		}
 		else{
-			return "-1";
+			throw new WrongDateFormatException("kuu " + in);
 		}
 	}
 

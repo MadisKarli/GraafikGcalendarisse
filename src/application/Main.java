@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.java.WrongDateFormatException;
 
 //Sets up GUI
 public class Main extends Application {
@@ -26,14 +27,23 @@ public class Main extends Application {
 		    vbox.getChildren().add(name);
 		    final TextField tekst = new TextField("Madis");
 		    vbox.getChildren().add(tekst);
-		 
+
+
+		    
 		    Label name2 = new Label("Sisesta graafik alates \"Date\" kuni pühapäeva viimane vahetus");
 		    vbox.getChildren().add(name2);
 		    final TextArea tekst2 = new TextArea("");
 		    vbox.getChildren().add(tekst2);
 		    
+		    tekst.setOnKeyPressed(new EventHandler<KeyEvent>(){
+				public void handle(KeyEvent event) {
+					if(event.getCode() == KeyCode.ENTER) {
+						passEvent(tekst2.getText(), tekst.getText());
+					}
+				}
+		    	
+		    });
 		    tekst2.setOnKeyPressed(new EventHandler<KeyEvent>(){
-				@Override
 				public void handle(KeyEvent event) {
 					if(event.getCode() == KeyCode.ENTER) {
 						passEvent(tekst2.getText(), tekst.getText());
@@ -70,8 +80,13 @@ public class Main extends Application {
 			main.java.Inputparser.parseInput(input, name);
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (WrongDateFormatException e){
+			System.out.println("Kuupäev vales formaadis. Ootasin kujul \"kuupäev. kuu. aasta\", sain " + e.getMessage());
 		}
 
+	}
+	public static void dostuff(){
+		System.out.println("lollo");
 	}
 	
 	public static void main(String[] args) {
